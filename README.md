@@ -52,7 +52,7 @@ entirely optional. A donation is a thank-you for the translation work, not
 payment for the game or its content.
 
 - ☕ [Ko-fi](https://ko-fi.com/elfix)
-- 💸 [PayPal](https://www.paypal.me/ElfixElfix)
+- 💸 [PayPal](https://www.paypal.me/Elfixelfix)
 
 Non affiliata a NEOWIZ / WONDER POTION. / Not affiliated with NEOWIZ / WONDER POTION.
 
