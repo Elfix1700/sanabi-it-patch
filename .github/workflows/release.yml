@@ -6,15 +6,30 @@ on:
       - "v*"
   workflow_dispatch:
 
+# Serve per creare la Release con il GITHUB_TOKEN: senza questo blocco
+# l'ultimo step fallisce con "Resource not accessible by integration".
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
+
+      - name: Verifica che il tag coincida con VERSION
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          v="$(tr -d '[:space:]' < VERSION)"
+          if [ "${GITHUB_REF_NAME}" != "v${v}" ]; then
+            echo "::error::Il tag ${GITHUB_REF_NAME} non coincide con VERSION (v${v})"
+            exit 1
+          fi
 
       - name: Installa UnityPy e PyInstaller
         run: |
@@ -26,11 +41,14 @@ jobs:
           python -c "import gzip,shutil;shutil.copyfileobj(open('data/translation_it.json','rb'),gzip.open('patcher/data/translation_it.json.gz','wb',compresslevel=9))"
           python -c "import shutil;shutil.copyfile('data/translation_it.json','patcher/data/translation_it.json')"
 
+      # --add-data: il patcher cerca i dati accanto a se' (cartella "data");
+      # --collect-all UnityPy: UnityPy ha file di risorse che PyInstaller
+      # non include da solo.
       - name: Compila patch_sanabi_it.exe
         run: |
-          pyinstaller --onefile --name patch_sanabi_it --distpath dist --workpath build_tmp patcher/patch_sanabi_it.py
+          pyinstaller --onefile --name patch_sanabi_it --collect-all UnityPy --add-data "patcher/data;data" --distpath dist --workpath build_tmp patcher/patch_sanabi_it.py
 
-      - name: Controllo antivirus (fumetto)
+      - name: Elenco di dist
         run: dir dist
 
       - name: Zippa la patch
@@ -38,11 +56,21 @@ jobs:
           7z a sanabi_it_patch.zip .\dist\patch_sanabi_it.exe .\patcher\patch_sanabi_it.py .\patcher\data\ .\README_IT.md .\README_EN.md .\LICENSE.txt .\CHANGELOG.md .\VERSION .\run_windows.bat .\run_linux.sh
 
       - name: Calcola i checksum
+        shell: bash
         run: |
-          python -c "import hashlib,sys;print(hashlib.sha256(open('sanabi_it_patch.zip','rb').read()).hexdigest(), ' sanabi_it_patch.zip')" > checksums.sha256
-          type checksums.sha256
+          python -c "import hashlib;print(hashlib.sha256(open('sanabi_it_patch.zip','rb').read()).hexdigest(), ' sanabi_it_patch.zip')" > checksums.sha256
+          cat checksums.sha256
+
+      # Utile per provare la build con "Run workflow" senza creare un tag.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sanabi_it_patch
+          path: |
+            sanabi_it_patch.zip
+            checksums.sha256
 
       - name: Crea la Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |

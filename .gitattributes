@@ -1,0 +1,5 @@
+*.sh   text eol=lf
+*.gz   binary
+# i dati della traduzione non contano nelle statistiche dei linguaggi
+data/*.json         linguist-generated
+patcher/data/*.json linguist-generated

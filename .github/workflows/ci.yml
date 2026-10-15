@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Sintassi dello script
+        run: python -m py_compile patcher/patch_sanabi_it.py
+
+      - name: Dati della traduzione coerenti
+        run: |
+          python - <<'PY'
+          import gzip, json, pathlib
+          dati = pathlib.Path("data/translation_it.json").read_bytes()
+          json.loads(dati)
+          gz = pathlib.Path("data/translation_it.json.gz").read_bytes()
+          assert gzip.decompress(gz) == dati, "data/translation_it.json.gz non corrisponde al .json"
+          for nome in ("translation_it.json", "translation_it.json.gz"):
+              a = pathlib.Path("data", nome).read_bytes()
+              b = pathlib.Path("patcher/data", nome).read_bytes()
+              assert a == b, f"patcher/data/{nome} diverso da data/{nome}"
+          print("dati ok")
+          PY
+
+      - name: VERSION e CHANGELOG allineati
+        run: grep -q "^## $(tr -d '[:space:]' < VERSION)" CHANGELOG.md
+
+      - name: shellcheck
+        run: shellcheck run_linux.sh

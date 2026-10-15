@@ -1,0 +1,36 @@
+name: Segnala un problema con la patch
+description: La patch non si applica, il gioco non parte o qualcosa non funziona
+labels: ["bug"]
+body:
+  - type: input
+    id: versione-gioco
+    attributes:
+      label: Versione di SANABI
+      description: La patch è fatta per la 1.3.53.
+      placeholder: "1.3.53"
+    validations:
+      required: true
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema operativo
+      options:
+        - Windows
+        - Linux
+        - Steam Deck
+        - macOS
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output dello script
+      description: Incolla qui l'output di `--check` o `--apply` (o l'errore che vedi).
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: dettagli
+    attributes:
+      label: Altri dettagli
+      description: Cosa ti aspettavi e cosa è successo.

@@ -1,0 +1,27 @@
+name: Errore di traduzione o testo che esce dallo spazio
+description: Refuso, frase poco naturale, genere sbagliato, testo troncato nei menu
+labels: ["traduzione"]
+body:
+  - type: input
+    id: dove
+    attributes:
+      label: Dove appare
+      description: Capitolo, personaggio o schermata (es. "Capitolo 3, dialogo con ...", "menu Opzioni").
+    validations:
+      required: true
+  - type: textarea
+    id: attuale
+    attributes:
+      label: Testo attuale
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Proposta di correzione
+      description: Facoltativa, ma aiuta molto.
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Trascina qui un'immagine se il problema è visivo (testo troncato, fuori dalla casella).

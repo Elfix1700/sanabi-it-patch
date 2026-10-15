@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+build_tmp/
+dist/
+*.spec
+sanabi_it_patch.zip
