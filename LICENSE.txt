@@ -1,0 +1,22 @@
+Licenza — Traduzione italiana amatoriale di SANABI
+==================================================
+
+Questa traduzione è un lavoro AMATORIALE, NON UFFICIALE, senza alcun fine di
+lucro.
+
+- Richiede una copia originale di SANABI. Senza il gioco acquistato, la patch
+  non serve a nulla.
+- NON contiene alcun file del gioco: solo traduzioni in formato testo e uno
+  script che le copia dentro i bundle Addressables che già possiedi.
+- Non aggira protezioni, non modifica eseguibili, non richiede crack: lavora
+  su una cartella di gioco normale.
+- SANABI è sviluppato da NEOWIZ e pubblicato da WONDER POTION, che detengono
+  tutti i diritti sul gioco e sui suoi contenuti. Questa traduzione non è
+  approvata, sponsorizzata o affiliata a loro in alcun modo.
+- Nessuno può vendere questo lavoro. Chiunque può ridistribuirlo gratuitamente
+  nelle stesse condizioni.
+
+IL SOFTWARE È FORNITO "COSÌ COM'È", SENZA GARANZIE DI ALCUN TIPO. Fai una copia
+di sicurezza della cartella di gioco prima di usare la patch.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.

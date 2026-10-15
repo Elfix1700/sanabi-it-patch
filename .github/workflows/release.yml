@@ -1,0 +1,55 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa UnityPy e PyInstaller
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install UnityPy pyinstaller
+
+      - name: Compatta i dati della traduzione
+        run: |
+          python -c "import gzip,shutil;shutil.copyfileobj(open('data/translation_it.json','rb'),gzip.open('patcher/data/translation_it.json.gz','wb',compresslevel=9))"
+          python -c "import shutil;shutil.copyfile('data/translation_it.json','patcher/data/translation_it.json')"
+
+      - name: Compila patch_sanabi_it.exe
+        run: |
+          pyinstaller --onefile --name patch_sanabi_it --distpath dist --workpath build_tmp patcher/patch_sanabi_it.py
+
+      - name: Controllo antivirus (fumetto)
+        run: dir dist
+
+      - name: Zippa la patch
+        run: |
+          7z a sanabi_it_patch.zip .\dist\patch_sanabi_it.exe .\patcher\patch_sanabi_it.py .\patcher\data\ .\README_IT.md .\README_EN.md .\LICENSE.txt .\CHANGELOG.md .\VERSION .\run_windows.bat .\run_linux.sh
+
+      - name: Calcola i checksum
+        run: |
+          python -c "import hashlib,sys;print(hashlib.sha256(open('sanabi_it_patch.zip','rb').read()).hexdigest(), ' sanabi_it_patch.zip')" > checksums.sha256
+          type checksums.sha256
+
+      - name: Crea la Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            sanabi_it_patch.zip
+            checksums.sha256
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

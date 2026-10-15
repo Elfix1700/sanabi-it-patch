@@ -1,0 +1,17 @@
+# checksum SHA-256 della release v1.0.0
+# rigenera con:  sha256sum -c checksums.sha256
+
+# --- dati della traduzione ---
+8953d1bc86c1320f2f0e8e7a1ae6a95c78a701ca7868d4d10223cffcb3232da7  data/translation_it.json
+c888949d9376cf5726ed38cc578c89879d1a0aab68ccd5737838b725a597ad0b  data/translation_it.json.gz
+# --- patcher ---
+9c6787e92f001d6aad82a367e1310fe7d5b2ae42571e014fb852d8748c4817f7  patcher/patch_sanabi_it.py
+# --- script ---
+abd4dca3ba8de9d718ec9c74304b972497ab797c16e2a923f25d72486473f6f9  run_linux.sh
+5c54cc9912907c4693098eea8e165c29578db7d0f5eadbaba3263054202d6454  run_windows.bat
+# --- documentazione ---
+8bc6363199eb515e79eb7fca4c2afd75207b7e0483660585318fdcf192445092  README_IT.md
+4f38b110ee45807af6e1d970b974b02f9cde0de69b7d2a0c537df92cd1ac43c6  README_EN.md
+c31f155d7e144df7063eaddae6066a5eab5beb9bd7518d52f50c0817776e8aa5  LICENSE.txt
+4de272a45e88596b882d1a1b1845c699dcaadbe79168727d3d3177a67bf646b7  CHANGELOG.md
+59854984853104df5c353e2f681a15fc7924742f9a2e468c29af248dce45ce03  VERSION
